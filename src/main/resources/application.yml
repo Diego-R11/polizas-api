@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: polizas-api
+  datasource:
+    url: jdbc:h2:mem:polizasdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+app:
+  security:
+    # En un ambiente real se inyecta como variable de entorno o desde un vault, nunca en el repositorio.
+    api-key: ${API_KEY:123456}
+  renovacion:
+    # IPC en formato decimal (0.0510 = 5,10 %). Parametrizable sin recompilar: IPC_RENOVACION=0.0520
+    ipc: ${IPC_RENOVACION:0.0510}
+  core:
+    url: ${CORE_URL:http://localhost:${server.port}/core-mock/evento}
+
+logging:
+  level:
+    com.segurosbolivar.polizas: INFO
